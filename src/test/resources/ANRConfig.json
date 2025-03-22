@@ -1,0 +1,64 @@
+{
+  "server": "hub-cloud.browserstack.com",
+  "username": "abhishekchopra_3zeil2",
+  "access_key": "Bra1ieqeWynrpsPVMU8D",
+  "native_app": "bs://fcbe08607497044c9e82e9cc07913f09341c6782",
+  "psrmg_app": "bs://2f24d1d244b8452a63340b5f91d5a5e6f496797e",
+  "ipa": "bs://2f64243f4da00c17fc3839e027207934d0fff91d",
+  "rummycom_app": "bs://7ea36d5cba6eb4236407275fef3ea9b3df3f309e",
+  "hzpscash_app": "bs://c568b153985c844103a202aae64a2f575bb11201",
+  "hzcash_app": "bs://68b79407c520a39b9dc259c5a490e3b6f183348e",
+  "capabilities": {
+    "project": "HZ ANR",
+    "build": "HZ ANR Build 9.21.0",
+    "name": "HZ ANR Session 9.21.0 ",
+    "browserstack.debug": false,
+    "browserstack.interactiveDebugging": true,
+    "newCommandTimeout": 20,
+    "browserstack.idleTimeout": 10,
+    "browserstack.networkLogs" : false,
+    "browserstack.deviceLogs" : false,
+    "browserstack.appiumLogs" : false,
+    "fullReset": false,
+    "autoGrantPermissions": true,
+    "browserstack.appProfiling": false,
+    "browserstack.deviceOrientation": "landscape",
+    "resignApp": false,
+    "browserstack.geoLocation": "IN",
+    "browserstack.gpsLocation": "28.35,77.11",
+    "browserstack.appium_version": "2.0.1"
+  },
+
+  "androidEnvironments": [
+    {
+      "platformName": "android",
+      "deviceName": "Vivo Y21",
+      "platformVersion": "11.0"
+    },
+    {
+      "platformName": "android",
+      "deviceName": "Oppo Reno 6",
+      "platformVersion": "11.0"
+    },
+    {
+      "platformName": "android",
+      "deviceName": "OnePlus 9",
+      "platformVersion": "11.0"
+    },
+    {
+      "platformName": "android",
+      "deviceName": "Google Pixel 6 Pro",
+      "platformVersion": "13.0"
+    },
+    {
+      "platformName": "android",
+      "deviceName": "Samsung Galaxy S21",
+      "platformVersion": "11.0"
+    },
+    {
+      "platformName": "android",
+      "deviceName": "OnePlus 8",
+      "platformVersion": "10.0"
+    }
+  ]
+}
