@@ -14,7 +14,7 @@ public class HZTests extends BaseTest {
     int appLaunchFrequency = 0;
     int reloadChipsFrequency = Integer.MAX_VALUE;
     int switchToOtherApps = 1;
-    int F2UFrequency = 0;
+    int F2UFrequency = 2;
     int F2WebViewFrequency = 0;
     int addCashFrequency = 1;
 

@@ -32,24 +32,19 @@
 
   "androidEnvironments": [
     {
+    "platformName": "android",
+    "deviceName": "Google Pixel 6 Pro",
+    "platformVersion": "13.0"
+    },
+    {
       "platformName": "android",
       "deviceName": "Vivo Y21",
       "platformVersion": "11.0"
     },
     {
       "platformName": "android",
-      "deviceName": "Oppo Reno 6",
-      "platformVersion": "11.0"
-    },
-    {
-      "platformName": "android",
       "deviceName": "OnePlus 9",
       "platformVersion": "11.0"
-    },
-    {
-      "platformName": "android",
-      "deviceName": "Google Pixel 6 Pro",
-      "platformVersion": "13.0"
     },
     {
       "platformName": "android",
@@ -60,6 +55,11 @@
       "platformName": "android",
       "deviceName": "OnePlus 8",
       "platformVersion": "10.0"
+    },
+    {
+      "platformName": "android",
+      "deviceName": "Oppo Reno 6",
+      "platformVersion": "11.0"
     }
   ]
 }
