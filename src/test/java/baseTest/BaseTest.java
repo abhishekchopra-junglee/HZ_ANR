@@ -163,13 +163,15 @@ public class BaseTest {
     public AndroidDriver launchBSDriverMultipleDevices(String deviceIndex, String appType) throws Exception {
         JSONParser parser = new JSONParser();
         JSONObject config = (JSONObject) parser.parse(new FileReader("src/test/resources/ANRConfig.json"));
-        JSONArray envs = new JSONArray();
+        JSONArray envs;
         String appBSId = "";
         if(appType.equalsIgnoreCase("ipa")) {
             envs = (JSONArray) config.get("iOSEnvironments");
         } else {
             envs = (JSONArray) config.get("androidEnvironments");
         }
+
+        System.out.println("Environments ="+envs.toJSONString());
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
@@ -213,7 +215,9 @@ public class BaseTest {
         googleCredentials.put("password", "Test@123");
 //        capabilities.setCapability("browserstack.appStoreConfiguration", googleCredentials);
         //executeADBCommand("adb shell am broadcast -a android.intent.action.MEMORY_FULL");
+        System.out.println("http://"+username+":"+accessKey+"@"+config.get("server")+"/wd/hub");
         driver = new AndroidDriver(new URL("http://"+username+":"+accessKey+"@"+config.get("server")+"/wd/hub"), capabilities);
+        System.out.println("Session details =="+driver.getSessionId());
         wait = new WebDriverWait(driver, Duration.ofSeconds(5));
 //        locators=new ANRLocators(driver,wait,appType);
         flows =new ANRFlows(driver,wait,getAppPackageName());
@@ -245,7 +249,7 @@ public class BaseTest {
         }
     }
 
-   // @AfterMethod(alwaysRun=true)
+    // @AfterMethod(alwaysRun=true)
     public void tearDown() throws Exception {
         // Invoke driver.quit() to indicate that the test is completed.
         // Otherwise, it will appear as timed out on BrowserStack.

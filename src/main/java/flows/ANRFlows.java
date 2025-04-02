@@ -1,11 +1,9 @@
 package flows;
 
+import com.google.common.collect.ImmutableMap;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.Point;
-import org.openqa.selenium.ScreenOrientation;
-import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
@@ -115,7 +113,6 @@ public class ANRFlows extends ANRLocators {
 //                System.out.print("Enter your name: ");
 //                String name = scanner.nextLine();
 //                System.out.println("Hello, OTP =" + name + "!");
-
             case "7":
                 hzInputMobNo("5566555558");
                 hzEnterOTP("123456");
@@ -170,6 +167,8 @@ public class ANRFlows extends ANRLocators {
                 break;
             case "hzcash":
             case "hzpscash":
+                System.out.println("------- Relaunching HZ App -------");
+                System.out.println("------- "+appPackageName+" -------");
                 if(appOptions.length>0 && appOptions[0]==1){
                     //Terminate App
                     driver.activateApp(appPackageName);
@@ -246,20 +245,20 @@ public class ANRFlows extends ANRLocators {
                 System.out.println("flutterToUnity : HZ App launched");
             }
 //            if (platform.contains("hzcash")) {
-                clickOnRummy();
+            clickOnRummy();
 //            }
             goToPracticeTab();
             select2Player();
             //clickPlayNowBtn();
 //            if(runEnv[0].equalsIgnoreCase("BS")){
-                Thread clickPlayNowBtnThread = new Thread(this::clickPlayNowBtn);
-                Thread setNetworkSpeedThread = new Thread(() -> setNetworkSpeedBS("4g-gprs-lossy"));
-                    // Start both threads
-                setNetworkSpeedThread.start();
-                clickPlayNowBtnThread.start();
-                    // Wait for both threads to finish
-                setNetworkSpeedThread.join();
-                clickPlayNowBtnThread.join(5000);
+            Thread clickPlayNowBtnThread = new Thread(this::clickPlayNowBtn);
+            Thread setNetworkSpeedThread = new Thread(() -> setNetworkSpeedBS("4g-gprs-lossy"));
+            // Start both threads
+            setNetworkSpeedThread.start();
+            clickPlayNowBtnThread.start();
+            // Wait for both threads to finish
+            setNetworkSpeedThread.join();
+            clickPlayNowBtnThread.join(5000);
 
 
             System.out.println("Practice Rummy Game Joined at time::"+timeStamp());
@@ -267,8 +266,8 @@ public class ANRFlows extends ANRLocators {
             System.out.println("Wait over after 10sec::Thread#1 isAlive="+clickPlayNowBtnThread.isAlive()+"****** Thread#2 isAlive="+setNetworkSpeedThread.isAlive());
 
             //Thread.sleep(6000);
-            if(runEnv[0].equalsIgnoreCase("BS"))
-                setNetworkSpeedBS("reset");
+//            if(runEnv[0].equalsIgnoreCase("BS"))
+//                setNetworkSpeedBS("reset");
 
             searchChromeBrowser(platform,5, true);
             Thread.sleep(3000);
@@ -386,7 +385,7 @@ public class ANRFlows extends ANRLocators {
         if (randomNumber <= 5) {
             for (int i = 0; i < randomNumber; i++) {
                 try {
-                    driver.rotate(ScreenOrientation.LANDSCAPE);
+                    driver.rotate(new DeviceRotation(90,0,0));
                 } catch (Exception e) {
                     System.out.println("Exception in Method randomRotation() ");
                 }
@@ -399,45 +398,36 @@ public class ANRFlows extends ANRLocators {
         Random rand = new Random();
         int randomNumber = rand.nextInt(bound);
         if(onlySwitchToApp){
-            driver.activateApp("com.google.android.youtube");
+//            driver.activateApp("com.google.android.youtube");
+            System.out.println("currentActivity()="+driver.currentActivity());
+            driver.executeScript("mobile: shell", ImmutableMap.of("command", "am start -n com.google.android.youtube/.HomeActivity"));
+            System.out.println("currentActivity()"+driver.currentActivity());
         }
         else {
 //            if (randomNumber <= 5) {
-                driver.activateApp("com.google.android.youtube");
+            try{
+//                    driver.activateApp("com.google.android.youtube");
+                System.out.println(driver.currentActivity());
+                driver.executeScript("mobile: shell", ImmutableMap.of("command", "am start -n com.google.android.youtube/.HomeActivity"));
+                System.out.println(driver.currentActivity());
                 try {
-//                    randomRotation(bound);
+                    //                    randomRotation(bound);
                     clickSearchBtnYoutube();
                     searchVideo();
                     clickSearchIcon();
                     clickOnVideo();
                     Thread.sleep(6000);
-                    driver.terminateApp("com.google.android.youtube");
-                   /* switch (platform) {
-                        case "ipa":
-                            driver.activateApp("com.jungleerummy.jungleerummy");
-                            break;
-                        case "psrmg":
-                            driver.activateApp("com.jungleerummy.playcashgameonline");
-                            break;
-                        case "native":
-                            driver.activateApp("io.jungleerummy.jungleegames");
-                            break;
-                        case "rummy.com":
-                            driver.activateApp("com.jungleerummy.playcashgameonline");
-                            break;
-                        case "hzcash":
-                            driver.activateApp("com.howzat.howzatfantasy");
-                            if (isHzLobbyVisible())
-                                System.out.println("\n ReLaunch App "); //Use logging
-                            else
-                                System.out.println("App launch failure");
-                            break;
-                    }*/
+//                        driver.terminateApp("com.google.android.youtube");
                 } catch (Exception e) {
-//                    driver.activateApp("com.howzat.howzatfantasy");
+//                        driver.activateApp(appPackageName);
                     System.out.println("Exception in Youtube app interaction :" + e.getMessage());
+                    System.out.println(driver.currentActivity());
                 }
+            }catch (Exception e){
+                System.out.println("Exception Youtube launch app :"+e.getMessage());
+                System.out.println(driver.currentActivity());
             }
+        }
     }
 
     public void selectQAEnv(String deviceIndex) throws InterruptedException {
@@ -455,11 +445,12 @@ public class ANRFlows extends ANRLocators {
 
     public void searchChromeBrowser(String platform, int bound, boolean onlySwitchToApp) throws InterruptedException {
 
-            driver.activateApp("com.android.chrome");
+        driver.activateApp("com.android.chrome");
 //            driver.activateApp("com.android.chrome");
+        System.out.println("currentActivity()="+driver.currentActivity());
         if(!onlySwitchToApp) {
             randomRotation(bound);
-            googleSearch("Map of Avenue=" + new Random().nextInt());
+            googleSearch("Youtube junglee games");
         }
 //            driver.terminateApp("com.android.chrome");
 //            relaunchApp(platform);
@@ -473,69 +464,69 @@ public class ANRFlows extends ANRLocators {
 
     public void hzAddCashFlow(String platform, String deviceIndex) throws InterruptedException {
 //        try {
-            if(isRummyLobbyDisplayed())
-                clickHzAddCashRumLobby();
-            else
-                clickHzAddCashLobby();
+        if(isRummyLobbyDisplayed())
+            clickHzAddCashRumLobby();
+        else
+            clickHzAddCashLobby();
 //            setNetworkSpeedBS("2g-gprs-lossy");
 //            inputCash("5");
 //            selectFirstTile();
 //            Thread.sleep(4000);
 //            unCheckExpressCheckout();
 //            clickBackButtonAndroid();
-            //clickEABackBtn();
+        //clickEABackBtn();
 //            clickAddButton();//Not able to locate Add Cash Button (VIVO Y16)
-            //tapByCoordinates(538,1837); // vivo y11
+        //tapByCoordinates(538,1837); // vivo y11
 //            if(!ContinueButton())
-                ChangeButton();
+        ChangeButton();
 
-            Thread.sleep(4000);
-            String paymentMode = "Net Banking", selectBank = "State Bank of India";
-            if(hzSelectPaymentMode(paymentMode)){
-                System.out.println("Payment mode selected -"+paymentMode);
-                if(hzSelectNetBankingMode(selectBank)) {
-                    System.out.println("Net banking checkout page visible==" + isNetBankingLogin());
-                    exitNetBankingLogin();
-                    hzClosePaymentFailurePopup();
-                }
-                else{
-                    System.out.println("Payment Bank "+selectBank+" not found");
-                }
+        Thread.sleep(4000);
+        String paymentMode = "Net Banking", selectBank = "State Bank of India";
+        if(hzSelectPaymentMode(paymentMode)){
+            System.out.println("Payment mode selected -"+paymentMode);
+            if(hzSelectNetBankingMode(selectBank)) {
+                System.out.println("Net banking checkout page visible==" + isNetBankingLogin());
+                exitNetBankingLogin();
+                hzClosePaymentFailurePopup();
+            }
+            else{
+                System.out.println("Payment Bank "+selectBank+" not found");
+            }
 
-                driver.navigate().back();
-                exitPaymentMode();
+            driver.navigate().back();
+            exitPaymentMode();
 
-                driver.navigate().back();
-                System.out.println("Return to lobby from Add cash EA screen");
-                if(isRummyLobbyDisplayed()){
-                    System.out.println("User at Rummy Lobby");
-                }
-                else{
-                    System.out.println("User at Howzat Lobby");
-                }
-            }else
-                System.out.println("Payment mode NOT selected -"+paymentMode);
+            driver.navigate().back();
+            System.out.println("Return to lobby from Add cash EA screen");
+            if(isRummyLobbyDisplayed()){
+                System.out.println("User at Rummy Lobby");
+            }
+            else{
+                System.out.println("User at Howzat Lobby");
+            }
+        }else
+            System.out.println("Payment mode NOT selected -"+paymentMode);
 
 //            randomRotation(5);
-            Thread.sleep(8000);
-            switch (platform) {
-                case "android":
-                    clickBackButtonAndroid();
-                    clickJusPayYesCancelBtn();
-                    clickBackButtonAndroid();
-                    clickBackButtonAndroid();
-                    ClickYes_Button();
-                    clickBackButtonAndroid();
-                    break;
-                case "ipa":
-                    clickCloseButton();
-                    clickJusPayYesCancelBtn();
-                    clickPaymentBackBtn();
-                    clickSMBackBtn();
-                    ClickYes_Button();
-                    clickEABackBtn();
-            }
-            Thread.sleep(2000);
+        Thread.sleep(8000);
+        switch (platform) {
+            case "android":
+                clickBackButtonAndroid();
+                clickJusPayYesCancelBtn();
+                clickBackButtonAndroid();
+                clickBackButtonAndroid();
+                ClickYes_Button();
+                clickBackButtonAndroid();
+                break;
+            case "ipa":
+                clickCloseButton();
+                clickJusPayYesCancelBtn();
+                clickPaymentBackBtn();
+                clickSMBackBtn();
+                ClickYes_Button();
+                clickEABackBtn();
+        }
+        Thread.sleep(2000);
 //            setNetworkSpeedBS("reset");
 //        } catch (Exception e) {
 //            System.out.println(e);

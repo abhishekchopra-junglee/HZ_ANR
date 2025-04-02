@@ -10,13 +10,13 @@ public class HZTests extends BaseTest {
     String deviceIndex = "-1";
     String platform = "";
     String runEnv = props.getProperty("runEnv");
-    int noOfIterations = 20;
+    int noOfIterations = 35;
     int appLaunchFrequency = 0;
     int reloadChipsFrequency = Integer.MAX_VALUE;
     int switchToOtherApps = 1;
-    int F2UFrequency = 1;
+    int F2UFrequency = 0;
     int F2WebViewFrequency = 0;
-    int addCashFrequency = 5;
+    int addCashFrequency = 1;
 
     int bound = 5;
     @BeforeMethod(alwaysRun = true)
@@ -32,7 +32,7 @@ public class HZTests extends BaseTest {
                 driver = launchBSDriverMultipleDevices(deviceIndex, appType);
             }
         } catch (Exception e) {
-
+            System.out.println("Exception in setup method"+e);
             throw new RuntimeException(e);
         }
     }
@@ -51,13 +51,13 @@ public class HZTests extends BaseTest {
                 if(i % 2 == switchToOtherApps){
                     System.out.println("\n ****** switchToOtherApps Flow started Iteration i ="+i);
 //                    if(runEnv.equalsIgnoreCase("local") || platform.equalsIgnoreCase("hzpscash")) {
-                        flows.searchChromeBrowser(platform, 2,false);
-                        flows.playYoutubeVideo(platform,2,false);
+                    flows.searchChromeBrowser(platform, 2,false);
+                    flows.playYoutubeVideo(platform,2,true);
 //                    }
                     System.out.println("\n ****** Play Youtube and Search Chrome browser passed in Iteration -"+i);
                 }
 
-                if (i % 6 == addCashFrequency) {
+                if (i % 2 == addCashFrequency) {
                     System.out.println("\n ****** addCashFrequency Flow started Iteration i ="+i);
                     flows.relaunchApp(platform);
                     System.out.println("Device Rotation Before Add Cash!");
@@ -79,7 +79,7 @@ public class HZTests extends BaseTest {
                     System.out.println("\n ****** Flutter2WebView Flow passed in Iteration i ="+i);
                 }
 
-                if (i % 6 == F2UFrequency) {
+                if (i % 3 == F2UFrequency) {
                     System.out.println("\n ****** Flutter2Unity Flow started Iteration i ="+i);
                     flows.relaunchApp(platform);
                     try {
@@ -91,7 +91,7 @@ public class HZTests extends BaseTest {
                     System.out.println("\n ****** Play practice rummy game passed in Iteration i ="+i);
                 }
 
-                if (i % 6 == appLaunchFrequency) {
+                if (i % 3 == appLaunchFrequency) {
                     System.out.println("\n ****** appLaunchFrequency Flow started - Time="+ LocalDateTime.now());
 //                    flows.relaunchApp(platform);
                     flows.relaunchApp(platform, 1);
@@ -105,7 +105,6 @@ public class HZTests extends BaseTest {
                 if (i % 6 == reloadChipsFrequency ) {
                     System.out.println("\n ****** reloadChipsFrequency Flow started ****** ");
                     flows.reloadChips();
-
                 }
 
                 System.out.println("\n ****** Testcase Passed with All Condition, " +

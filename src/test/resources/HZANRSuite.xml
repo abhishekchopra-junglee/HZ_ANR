@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="Parallel ANR Script for HZ Tests" parallel="true">
+<suite name="Parallel ANR Script for HZ Tests">
 
     <test name="HZ ANR Device 1" enabled="true">
+        <parameter name="deviceIndex" value="1"/>
+<!--        <parameter name="appType" value="hzpscash"/>-->
+        <parameter name="appType" value="hzcash"/>
+        <classes>
+            <class name="ANR.HZTests"/>
+        </classes>
+    </test>
+
+    <test name="HZ ANR Device 2" enabled="false">
+        <parameter name="deviceIndex" value="2"/>
+        <parameter name="appType" value="hzpscash"/>
+<!--        <parameter name="appType" value="hzcash"/>-->
+        <classes>
+            <class name="ANR.HZTests"/>
+        </classes>
+    </test>
+
+    <test name="ANR Device 3" enabled="false">
         <parameter name="deviceIndex" value="3"/>
-        <parameter name="appType" value="hzpscash"/>
-<!--        <parameter name="appType" value="hzcash"/>-->
-        <classes>
-            <class name="ANR.HZTests"/>
-        </classes>
-    </test>
-
-    <test name="HZ ANR Device 2" enabled="true">
-        <parameter name="deviceIndex" value="4"/>
-        <parameter name="appType" value="hzpscash"/>
-<!--        <parameter name="appType" value="hzcash"/>-->
-        <classes>
-            <class name="ANR.HZTests"/>
-        </classes>
-    </test>
-
-    <test name="ANR Device 3" enabled="true">
-        <parameter name="deviceIndex" value="5"/>
 <!--        <parameter name="appType" value="hzcash"/>-->
         <parameter name="appType" value="hzpscash"/>
         <classes>

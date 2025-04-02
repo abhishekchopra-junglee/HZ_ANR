@@ -30,6 +30,9 @@ public class ANRLocators extends ActionUtils {
         PageFactory.initElements(new AppiumFieldDecorator(driver),this);
     }
 
+    @AndroidFindBy(xpath = "//android.widget.TextView[@resource-id=\"com.android.chrome:id/line_1\"]")
+    private WebElement chromeSearchResult;
+
     @AndroidFindBy(id = "com.android.permissioncontroller:id/permission_allow_foreground_only_button")
     @iOSXCUITFindBy(accessibility = "Allow")
     public WebElement allowButton;
@@ -226,7 +229,7 @@ public class ANRLocators extends ActionUtils {
     @AndroidFindBy(accessibility = "Reload Chips")
     public WebElement reloadChips;
 
-//    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.EditText\").instance(0)")
+    //    @AndroidFindBy(uiAutomator = "new UiSelector().className(\"android.widget.EditText\").instance(0)")
     @AndroidFindBy(className = "android.widget.EditText")
     private WebElement mobileEditText;
 
@@ -265,11 +268,11 @@ public class ANRLocators extends ActionUtils {
     @AndroidFindBy(accessibility = "More", uiAutomator ="new UiSelector().className(\"android.widget.ImageView\").description(\"More\")")
     private WebElement hamburgerButton;
 
-//    @AndroidFindBy(uiAutomator ="new UiSelector().className(\"android.widget.ImageView\").descriptionContains(\"Fantasy\")")
+    //    @AndroidFindBy(uiAutomator ="new UiSelector().className(\"android.widget.ImageView\").descriptionContains(\"Fantasy\")")
     @AndroidFindBy(xpath = "(//*[@content-desc=\"Fantasy\"])[2]")
     public WebElement fantasyTabApk;
 
-//    @AndroidFindBy(uiAutomator ="new UiSelector().className(\"android.widget.ImageView\").descriptionContains(\"Howzat\")")
+    //    @AndroidFindBy(uiAutomator ="new UiSelector().className(\"android.widget.ImageView\").descriptionContains(\"Howzat\")")
     @AndroidFindBy(xpath ="(//*[@content-desc=\"FANTASY\" or @content-desc=\"Howzat\"])[1]")
     public WebElement fantasyTabPSCash;
 
@@ -318,11 +321,11 @@ public class ANRLocators extends ActionUtils {
     @AndroidFindBy(xpath = "//android.view.View[@content-desc=\"Payment Failed\"]/preceding-sibling::android.widget.Button")
     private WebElement hzClosePaymentFailurePopup;
 
-     @AndroidFindBy(accessibility = "Yes, Exit")
+    @AndroidFindBy(accessibility = "Yes, Exit")
     private WebElement exitPaymentMode;
 
-//     @AndroidFindBy(xpath = "//android.view.View//android.widget.ImageView[6]")
-     @AndroidFindBy(xpath = "(//android.widget.ScrollView/android.view.View[1]//android.widget.ImageView)[2]")
+    //     @AndroidFindBy(xpath = "//android.view.View//android.widget.ImageView[6]")
+    @AndroidFindBy(xpath = "(//android.widget.ScrollView/android.view.View[1]//android.widget.ImageView)[2]")
     private WebElement hzPromotionBox;
 
     @AndroidFindBy(accessibility = "Federal Bank")
@@ -740,14 +743,14 @@ public class ANRLocators extends ActionUtils {
         waitAndClick(otpEditText);
         waitAndClick(otpEditText);
 //        isElementPresent(otpEditText);
-       sendText(otpEditText, otp);
-       if(waitAndFindElement(otpSubmitButton)!=null && waitAndFindElement(otpSubmitButton).isEnabled()) {
-           System.out.println("OTP submit button enabled");
-           waitAndClick(otpSubmitButton);
-       }
-       else{
-           System.out.println("\nNew Login Flow...\n");
-       }
+        sendText(otpEditText, otp);
+        if(waitAndFindElement(otpSubmitButton)!=null && waitAndFindElement(otpSubmitButton).isEnabled()) {
+            System.out.println("OTP submit button enabled");
+            waitAndClick(otpSubmitButton);
+        }
+        else{
+            System.out.println("\nNew Login Flow...\n");
+        }
         sleep(500);
     }
 
@@ -759,8 +762,9 @@ public class ANRLocators extends ActionUtils {
         else if (isElementPresent(chromeUrlBar))
             sendText(chromeUrlBar, searchText);
 
+        click(chromeSearchResult,true);
+        System.out.println("Context="+driver.getContext() + "\t" + driver.getContextHandles() + "\t");
         isElementPresent(waitAndFindElement(googleImageHeader));
-
     }
 
     public boolean hzClickSideMenu() {
@@ -918,9 +922,9 @@ public class ANRLocators extends ActionUtils {
             // UiSelector().scrollable(true).instance(0)).scrollIntoView(new
             // UiSelector().className(\"android.view.View\").descriptionStartsWith(\""+selectBank+"\"))";
             //        WebElement element=driver.findElement(new AppiumBy.ByAndroidUIAutomator(locator));
-        String locator = "new UiSelector().className(\"android.widget.ImageView\").descriptionStartsWith(\""+bankName+"\")";
+            String locator = "new UiSelector().className(\"android.widget.ImageView\").descriptionStartsWith(\""+bankName+"\")";
 //            String locator = bankName;
-        WebElement element = driver.findElement(new AppiumBy.ByAndroidUIAutomator(locator));
+            WebElement element = driver.findElement(new AppiumBy.ByAndroidUIAutomator(locator));
 //            WebElement element = driver.findElement(new AppiumBy.ByAccessibilityId(locator));
             System.out.println("Is bank name element found-"+isElementPresent(element));
 //            scrollUntilVisible(waitAndFindElement(element), "down",1);
